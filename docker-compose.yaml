@@ -1,21 +1,18 @@
 version: '2'
 services:
   nginx:
-  container_name: some_nginx
-  image: nginx
-  restart: always
-  ports:
-  - 80:80
-  volumes:
-  - ./nginx/conf.d: /etc/nginx/conf.d
-  app:
-    restart: always
-    build: ./SpringBootNgnix
-    working_dir: /SpringBootNgnix
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+  springboot-ngnix:
+    build:
+      context: ./SpringBootNgnix
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
     volumes:
-      - ./SpringBootNgnix:/SpringBootNgnix
-    expose:
-    - "8080"
-    command: mvn clean spring-boot:run
+      - .:/code
     depends_on:
       - nginx
